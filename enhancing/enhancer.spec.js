@@ -2,52 +2,59 @@ const enhancer = require('./enhancer.js');
 // test away!
 describe('enhancer', () => {
 
-    describe('fail', () => {
-        it('if enchancement is less than 15, the durability of the item is decreased by 5', () => {
-            const item = {
-                name: 'test',
-                enchancement: 5,
-                durability: 5
-            }
-
-            const results = enhancer.fail(item)
-            expect(results.durability).toBe(0)
+    describe('fail()', () => {
+        it('if enhancement is less than 15 the durability is decreased by 5', () => {
+            expect(enhancer.fail({
+                name: 'sword',
+                durability: 50,
+                enhancement: 10
+            })).toEqual({
+                name: 'sword',
+                durability: 45,
+                enhancement: 10
+            })
         })
 
-        it('if the enchancement is 15 or more the durability is decreased by 10', () => {
-            const item = {
-                name: 'test',
-                enchancement: 20,
-                durability: 15
-            }
-
-            const results = enhancer.fail(item)
-            expect(results.durability).toBe(5)
+        it('if enhancement is 15 or more the durability is decreased by 10', () => {
+            expect(enhancer.fail({
+                name: 'sword',
+                durability: 50,
+                enhancement: 15
+            })).toEqual({
+                name: 'sword',
+                durability: 40,
+                enhancement: 15
+            })
         })
 
-        it('if enchancement is greater than 16 the enchancement level decreases by 1', () => {
-            const item = {
-                name: 'test',
-                enchancement: 20,
-                durability: 10
-            }
-
-            const results = enhancer.fail(item)
-            expect(results.enchancement).toBe(19)
-        })
-    })
-    describe('succeed', () => {
-        it('should increase enchancement by 1', () => {
-            const item = {
-                enchancement: 5
-            }
-
-            const results = enhancer.succeed(item)
-            expect(results.enchancement).toBe(6)
+        it('if enhancement is greater than 16 the enhancement level decreases by 1', () => {
+            expect(enhancer.fail({
+                name: 'sword',
+                durability: 50,
+                enhancement: 18
+            })).toEqual({
+                name: 'sword',
+                durability: 40,
+                enhancement: 17
+            })
         })
     })
 
-    describe('repair', () => {
+    describe('succeed()', () => {
+        it('should increase an item enhancement by 1', () => {
+            expect(enhancer.succeed({
+                name: 'sword',
+                durability: 50,
+                enhancement: 10
+            })).toEqual({
+                name: 'sword',
+                durability: 50,
+                enhancement: 11
+            })
+        })
+    })
+
+    describe('repair()', () => {
         it('should restore durability back to 100', () => {
             const item = {
                 name: 'test',
